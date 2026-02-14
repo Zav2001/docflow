@@ -23,16 +23,17 @@ const annotationsSlice = createSlice({
     name: 'annotations',
     initialState,
     reducers: {
-        addAnnotation: (state, action: PayloadAction<Omit<Annotation, 'id' | 'createdAt'>>) => {
+        addAnnotation: (state, action: PayloadAction<Annotation | Omit<Annotation, 'id' | 'createdAt'>>) => {
             // Save current state to history
             state.history.past.push({ ...state.entities });
             state.history.future = [];
 
-            const id = nanoid();
+            const payload = action.payload as Partial<Annotation>;
+            const id = payload.id || nanoid();
             const annotation: Annotation = {
-                ...action.payload,
+                ...(action.payload as Annotation),
                 id,
-                createdAt: new Date().toISOString(),
+                createdAt: payload.createdAt || new Date().toISOString(),
             };
             state.entities[id] = annotation;
             state.ids.push(id);

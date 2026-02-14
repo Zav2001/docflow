@@ -44,6 +44,20 @@ export interface DocumentVersion {
     createdAt: string;
 }
 
+export interface CommentItem {
+    id: string;
+    annotationId: string;
+    documentId: string;
+    authorId: string;
+    authorName: string;
+    content: string;
+    mentions: string[];
+    createdAt: string;
+    updatedAt?: string;
+    parentId?: string;
+    resolved: boolean;
+}
+
 export interface DocumentMetadata {
     id: string;
     name: string;

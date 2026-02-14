@@ -1,18 +1,7 @@
 import { createSlice, type PayloadAction, nanoid } from '@reduxjs/toolkit';
+import type { CommentItem } from '../../../types';
 
-export interface Comment {
-    id: string;
-    annotationId: string;
-    documentId: string;
-    authorId: string;
-    authorName: string;
-    content: string;
-    mentions: string[];
-    createdAt: string;
-    updatedAt?: string;
-    parentId?: string; // For replies
-    resolved: boolean;
-}
+export type Comment = CommentItem;
 
 interface CommentsState {
     entities: Record<string, Comment>;
@@ -30,13 +19,14 @@ const commentsSlice = createSlice({
     name: 'comments',
     initialState,
     reducers: {
-        addComment: (state, action: PayloadAction<Omit<Comment, 'id' | 'createdAt' | 'resolved'>>) => {
-            const id = nanoid();
+        addComment: (state, action: PayloadAction<Comment | Omit<Comment, 'id' | 'createdAt' | 'resolved'>>) => {
+            const payload = action.payload as Partial<Comment>;
+            const id = payload.id || nanoid();
             const comment: Comment = {
-                ...action.payload,
+                ...(action.payload as Comment),
                 id,
-                createdAt: new Date().toISOString(),
-                resolved: false,
+                createdAt: payload.createdAt || new Date().toISOString(),
+                resolved: payload.resolved ?? false,
             };
 
             state.entities[id] = comment;
@@ -78,6 +68,20 @@ const commentsSlice = createSlice({
                 state.entities[id].resolved = !state.entities[id].resolved;
             }
         },
+
+        setComments: (state, action: PayloadAction<Comment[]>) => {
+            state.entities = {};
+            state.ids = [];
+            state.byAnnotation = {};
+            action.payload.forEach((comment) => {
+                state.entities[comment.id] = comment;
+                state.ids.push(comment.id);
+                if (!state.byAnnotation[comment.annotationId]) {
+                    state.byAnnotation[comment.annotationId] = [];
+                }
+                state.byAnnotation[comment.annotationId].push(comment.id);
+            });
+        },
     },
 });
 
@@ -86,6 +90,7 @@ export const {
     updateComment,
     deleteComment,
     toggleResolve,
+    setComments,
 } = commentsSlice.actions;
 
 export default commentsSlice.reducer;

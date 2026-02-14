@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { selectDocument, setCurrentPage, setDocuments } from '../features/documents/store/documentsSlice';
-import { undo, redo } from '../features/annotations/store/annotationsSlice';
+import { setAnnotations, undo, redo } from '../features/annotations/store/annotationsSlice';
 import { docApi } from '../api/docApi';
 import { userApi } from '../api/userApi';
 import { ThumbnailSidebar } from '../features/documents/components/ThumbnailSidebar';
@@ -15,6 +15,7 @@ import { useRole } from '../hooks/useRole';
 import { useEffect } from 'react';
 import type { Annotation } from '../types';
 import { setNotifications } from '../features/notifications/store/notificationsSlice';
+import { setComments } from '../features/comments/store/commentsSlice';
 
 const PdfViewer = lazy(() => import('../features/documents/components/PdfViewer').then(m => ({ default: m.PdfViewer })));
 
@@ -52,6 +53,23 @@ export const DocumentViewerPage: React.FC = () => {
             dispatch(selectDocument(documentId));
             dispatch(setCurrentPage(1));
         }
+    }, [documentId, dispatch]);
+
+    useEffect(() => {
+        const loadAnnotations = async () => {
+            if (!documentId) {
+                dispatch(setAnnotations([]));
+                dispatch(setComments([]));
+                return;
+            }
+            const [annotations, comments] = await Promise.all([
+                docApi.getAnnotations(documentId),
+                docApi.getCommentsByDocument(documentId),
+            ]);
+            dispatch(setAnnotations(annotations));
+            dispatch(setComments(comments));
+        };
+        loadAnnotations();
     }, [documentId, dispatch]);
 
     useEffect(() => {

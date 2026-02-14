@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import * as Icons from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useRedux';
 import { addAnnotation, deleteAnnotation } from '../store/annotationsSlice';
+import { docApi } from '../../../api/docApi';
 import type { Annotation } from '../../../types';
 import type { HighlightColor } from './AnnotationToolbar';
 
@@ -92,17 +93,19 @@ export const AnnotationLayer: React.FC<AnnotationLayerProps> = ({
                 points = [selectionStart, selectionEnd];
             }
 
-            dispatch(
-                addAnnotation({
-                    documentId,
-                    pageNumber,
-                    type,
-                    position: { x, y, width, height },
-                    points,
-                    color: highlightColor,
-                    authorId: 'current-user',
-                })
-            );
+            const newAnnotation: Annotation = {
+                id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `ann-${Date.now()}`,
+                documentId,
+                pageNumber,
+                type,
+                position: { x, y, width, height },
+                points,
+                color: highlightColor,
+                authorId: 'current-user',
+                createdAt: new Date().toISOString(),
+            };
+            dispatch(addAnnotation(newAnnotation));
+            void docApi.saveAnnotation(newAnnotation);
         }
 
         setIsSelecting(false);
@@ -113,6 +116,7 @@ export const AnnotationLayer: React.FC<AnnotationLayerProps> = ({
     const handleDeleteAnnotation = (id: string, e: React.MouseEvent) => {
         e.stopPropagation();
         dispatch(deleteAnnotation(id));
+        void docApi.deleteAnnotation(id);
     };
 
     const getColors = (colorName?: string) => {

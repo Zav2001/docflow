@@ -9,6 +9,7 @@ export const STORAGE_KEYS = {
     NOTIFICATIONS: 'docflow_notifications',
     EXTRACTED_FIELDS: 'docflow_extracted_fields',
     ANNOTATIONS: 'docflow_annotations',
+    COMMENTS: 'docflow_comments',
     ANALYTICS: 'docflow_analytics',
     SESSIONS: 'docflow_sessions',
     AUDIT_LOGS: 'docflow_audit_logs',
@@ -65,6 +66,7 @@ export const StorageService = {
             loadInitialData(STORAGE_KEYS.NOTIFICATIONS, '/data/notifications.json'),
             loadInitialData(STORAGE_KEYS.EXTRACTED_FIELDS, '/data/extracted-fields.json'),
             loadInitialData(STORAGE_KEYS.ANNOTATIONS, '/data/annotations.json'),
+            loadInitialData(STORAGE_KEYS.COMMENTS, '/data/comments.json'),
             loadInitialData(STORAGE_KEYS.ANALYTICS, '/data/analytics.json'),
         ]);
 
@@ -351,5 +353,50 @@ export const StorageService = {
         }
         StorageService.setItem(STORAGE_KEYS.ANNOTATIONS, allAnnotations);
         return annotation;
+    },
+
+    deleteAnnotation: (id: string) => {
+        const allAnnotations = StorageService.getItem<Annotation[]>(STORAGE_KEYS.ANNOTATIONS) || [];
+        StorageService.setItem(
+            STORAGE_KEYS.ANNOTATIONS,
+            allAnnotations.filter((annotation) => annotation.id !== id)
+        );
+    },
+
+    // Comments
+    getComments: (): any[] => {
+        return StorageService.getItem<any[]>(STORAGE_KEYS.COMMENTS) || [];
+    },
+
+    getCommentsByDocument: (documentId: string): any[] => {
+        return StorageService.getComments().filter((comment) => comment.documentId === documentId);
+    },
+
+    saveComment: (comment: any) => {
+        const comments = StorageService.getComments();
+        const index = comments.findIndex((c) => c.id === comment.id);
+        if (index >= 0) {
+            comments[index] = comment;
+        } else {
+            comments.push(comment);
+        }
+        StorageService.setItem(STORAGE_KEYS.COMMENTS, comments);
+        return comment;
+    },
+
+    deleteComment: (id: string) => {
+        const comments = StorageService.getComments().filter((comment) => comment.id !== id);
+        StorageService.setItem(STORAGE_KEYS.COMMENTS, comments);
+    },
+
+    toggleResolveComment: (id: string) => {
+        const comments = StorageService.getComments();
+        const index = comments.findIndex((comment) => comment.id === id);
+        if (index >= 0) {
+            comments[index] = { ...comments[index], resolved: !comments[index].resolved };
+            StorageService.setItem(STORAGE_KEYS.COMMENTS, comments);
+            return comments[index];
+        }
+        return null;
     }
 };

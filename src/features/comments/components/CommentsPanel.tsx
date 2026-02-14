@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import * as Icons from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/useRedux';
 import { addComment, deleteComment, toggleResolve } from '../store/commentsSlice';
+import { docApi } from '../../../api/docApi';
 import type { Annotation } from '../../../types';
 
 interface CommentsPanelProps {
@@ -26,26 +27,32 @@ export const CommentsPanel: React.FC<CommentsPanelProps> = ({ annotation, onClos
         // Extract mentions
         const mentions = newComment.match(/@(\w+)/g)?.map(m => m.slice(1)) || [];
 
-        dispatch(
-            addComment({
-                annotationId: annotation.id,
-                documentId: annotation.documentId,
-                authorId: 'current-user',
-                authorName: 'Senior Architect',
-                content: newComment,
-                mentions,
-            })
-        );
+        const comment = {
+            id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `comment-${Date.now()}`,
+            annotationId: annotation.id,
+            documentId: annotation.documentId,
+            authorId: 'current-user',
+            authorName: 'Senior Architect',
+            content: newComment,
+            mentions,
+            createdAt: new Date().toISOString(),
+            resolved: false,
+        };
+
+        dispatch(addComment(comment));
+        void docApi.saveComment(comment);
 
         setNewComment('');
     };
 
     const handleDelete = (commentId: string) => {
         dispatch(deleteComment(commentId));
+        void docApi.deleteComment(commentId);
     };
 
     const handleToggleResolve = (commentId: string) => {
         dispatch(toggleResolve(commentId));
+        void docApi.toggleResolveComment(commentId);
     };
 
     if (!annotation) return null;

@@ -1,5 +1,5 @@
 import { StorageService } from '../services/storage';
-import type { Annotation, DocumentMetadata, ExtractedField } from '../types';
+import type { Annotation, CommentItem, DocumentMetadata, ExtractedField } from '../types';
 import { pdfjs } from 'react-pdf';
 
 // Simulate network latency
@@ -135,6 +135,31 @@ export const docApi = {
     saveAnnotation: async (annotation: Annotation): Promise<Annotation> => {
         await sleep(300);
         return StorageService.saveAnnotation(annotation);
+    },
+
+    deleteAnnotation: async (id: string): Promise<void> => {
+        await sleep(200);
+        StorageService.deleteAnnotation(id);
+    },
+
+    getCommentsByDocument: async (documentId: string): Promise<CommentItem[]> => {
+        await sleep(220);
+        return StorageService.getCommentsByDocument(documentId);
+    },
+
+    saveComment: async (comment: CommentItem): Promise<CommentItem> => {
+        await sleep(220);
+        return StorageService.saveComment(comment);
+    },
+
+    deleteComment: async (id: string): Promise<void> => {
+        await sleep(180);
+        StorageService.deleteComment(id);
+    },
+
+    toggleResolveComment: async (id: string): Promise<CommentItem | null> => {
+        await sleep(180);
+        return StorageService.toggleResolveComment(id);
     },
 
     // Favorites helpers
