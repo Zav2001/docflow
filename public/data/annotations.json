@@ -1,0 +1,17 @@
+[
+    {
+        "id": "annot-1",
+        "documentId": "doc-1",
+        "pageNumber": 1,
+        "type": "HIGHLIGHT",
+        "position": {
+            "x": 100,
+            "y": 150,
+            "width": 220,
+            "height": 30
+        },
+        "color": "yellow",
+        "authorId": "user-1",
+        "createdAt": "2024-02-10T10:05:00Z"
+    }
+]

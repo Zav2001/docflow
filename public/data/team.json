@@ -1,0 +1,34 @@
+[
+    {
+        "id": "1",
+        "name": "Sarah Chen",
+        "role": "Lead Reviewer",
+        "avatar": "SC",
+        "status": "online",
+        "documents": 12
+    },
+    {
+        "id": "2",
+        "name": "Marcus Johnson",
+        "role": "Senior Analyst",
+        "avatar": "MJ",
+        "status": "online",
+        "documents": 8
+    },
+    {
+        "id": "3",
+        "name": "Elena Rodriguez",
+        "role": "Compliance Officer",
+        "avatar": "ER",
+        "status": "away",
+        "documents": 15
+    },
+    {
+        "id": "4",
+        "name": "David Kim",
+        "role": "Document Specialist",
+        "avatar": "DK",
+        "status": "offline",
+        "documents": 5
+    }
+]

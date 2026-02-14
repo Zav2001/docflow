@@ -1,0 +1,34 @@
+[
+    {
+        "id": "1",
+        "type": "document",
+        "title": "New document uploaded",
+        "message": "Invoice_2024_002.pdf requires review",
+        "time": "5 min ago",
+        "read": false
+    },
+    {
+        "id": "2",
+        "type": "comment",
+        "title": "New comment on MSA_Acme_Corp.pdf",
+        "message": "Sarah Chen added a comment",
+        "time": "1 hour ago",
+        "read": false
+    },
+    {
+        "id": "3",
+        "type": "approval",
+        "title": "Document approved",
+        "message": "Contract_Amendment_2024.pdf has been approved",
+        "time": "2 hours ago",
+        "read": true
+    },
+    {
+        "id": "4",
+        "type": "mention",
+        "title": "You were mentioned",
+        "message": "Marcus Johnson mentioned you in a comment",
+        "time": "3 hours ago",
+        "read": true
+    }
+]

@@ -1,0 +1,9 @@
+[
+    {
+        "id": "user-1",
+        "name": "Senior Architect",
+        "role": "ADMIN",
+        "email": "architect@docflow.com",
+        "avatar": "/avatars/user-1.jpg"
+    }
+]

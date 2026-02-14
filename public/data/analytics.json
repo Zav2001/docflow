@@ -1,0 +1,106 @@
+{
+    "metrics": [
+        {
+            "label": "Total Documents",
+            "value": "156",
+            "change": "+12%",
+            "icon": "FileText",
+            "color": "bg-blue-500"
+        },
+        {
+            "label": "Avg Review Time",
+            "value": "2.4h",
+            "change": "-8%",
+            "icon": "Clock",
+            "color": "bg-emerald-500"
+        },
+        {
+            "label": "Team Members",
+            "value": "24",
+            "change": "+3",
+            "icon": "Users",
+            "color": "bg-purple-500"
+        },
+        {
+            "label": "Accuracy Rate",
+            "value": "98.5%",
+            "change": "+1.2%",
+            "icon": "Target",
+            "color": "bg-amber-500"
+        }
+    ],
+    "weeklyData": [
+        {
+            "day": "Mon",
+            "count": 12,
+            "max": 25
+        },
+        {
+            "day": "Tue",
+            "count": 19,
+            "max": 25
+        },
+        {
+            "day": "Wed",
+            "count": 15,
+            "max": 25
+        },
+        {
+            "day": "Thu",
+            "count": 22,
+            "max": 25
+        },
+        {
+            "day": "Fri",
+            "count": 18,
+            "max": 25
+        },
+        {
+            "day": "Sat",
+            "count": 8,
+            "max": 25
+        },
+        {
+            "day": "Sun",
+            "count": 5,
+            "max": 25
+        }
+    ],
+    "statusData": [
+        {
+            "name": "Reviewed",
+            "value": 56,
+            "color": "bg-emerald-500"
+        },
+        {
+            "name": "Pending",
+            "value": 38,
+            "color": "bg-amber-500"
+        },
+        {
+            "name": "Rejected",
+            "value": 6,
+            "color": "bg-red-500"
+        }
+    ],
+    "activity": [
+        {
+            "user": "Sarah Chen",
+            "action": "reviewed",
+            "doc": "Invoice_2024_001.pdf",
+            "time": "5 min ago"
+        },
+        {
+            "user": "Marcus Johnson",
+            "action": "uploaded",
+            "doc": "Contract_Amendment.pdf",
+            "time": "12 min ago"
+        },
+        {
+            "user": "Elena Rodriguez",
+            "action": "approved",
+            "doc": "MSA_Acme_Corp.pdf",
+            "time": "1 hour ago"
+        }
+    ]
+}
